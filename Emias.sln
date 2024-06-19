@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMIAS", "EMIAS\EMIAS.csproj", "{084EA2E4-A52E-4A3D-9DD0-812CB5A5DA67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMIAS", "EMIAS\EMIAS.csproj", "{084EA2E4-A52E-4A3D-9DD0-812CB5A5DA67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmiasWPF10", "EmiasWPF10\EmiasWPF10.csproj", "{320B6FA9-6163-4FDC-9093-38F0EA456E52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{084EA2E4-A52E-4A3D-9DD0-812CB5A5DA67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084EA2E4-A52E-4A3D-9DD0-812CB5A5DA67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084EA2E4-A52E-4A3D-9DD0-812CB5A5DA67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{320B6FA9-6163-4FDC-9093-38F0EA456E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{320B6FA9-6163-4FDC-9093-38F0EA456E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{320B6FA9-6163-4FDC-9093-38F0EA456E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{320B6FA9-6163-4FDC-9093-38F0EA456E52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
