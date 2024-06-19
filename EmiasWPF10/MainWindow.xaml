@@ -22,15 +22,16 @@
         <!-- Синий фон для строки с "ЕМИАС" и "Единая медицинская информационно-аналитическая система" -->
         <Border Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource FocusColor}" VerticalAlignment="Center" Height="94">
             <StackPanel HorizontalAlignment="Center">
-                <TextBlock Text="ЕМИАС" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryColor}" Padding="0 10 0 0" FontWeight="Bold"/>
-                <TextBlock Text="Единая медицинская информационно-аналитическая система" FontSize="14" Width="300" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource PrimaryColor}"/>
+                <Button Width="10" Height="10" Click="Button_Click" Background="{DynamicResource PrimaryColor}"/>
+                <TextBlock Text="ЕМИАС" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Padding="0 10 0 0" FontWeight="Bold"/>
+                <TextBlock Text="Единая медицинская информационно-аналитическая система" FontSize="14" Width="300" TextWrapping="Wrap" TextAlignment="Center" Foreground="White"/>
             </StackPanel>
         </Border>
 
         <!-- Остальные элементы в Grid -->
-        <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="360" Grid.ColumnSpan="2" Text="Номер сотрудника"/>
-        <TextBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="360" Grid.ColumnSpan="2" Text="Пароль"/>
-        <Button Content="Войти" Grid.Column="0" Grid.Row="3" Height="30" Width="160" Background="{DynamicResource FocusColor}" Foreground="{DynamicResource PrimaryColor}"/>
-        <Button Content="Я пациент" Grid.Column="1" Grid.Row="3" Height="30" Width="160" Background="{DynamicResource FocusColor}" Foreground="{DynamicResource PrimaryColor}"/>
+        <TextBox Grid.Row="1"  VerticalAlignment="Center" Height="30"  Grid.ColumnSpan="2" Text="Номер сотрудника"/>
+        <TextBox Grid.Row="2"  VerticalAlignment="Center" Height="30"  Grid.ColumnSpan="2" Text="Пароль"/>
+        <Button Content="Войти" Grid.Column="0" Grid.Row="3" Height="30" Margin="10"  Background="{DynamicResource FocusColor}" Foreground="White"/>
+        <Button Content="Я пациент" Grid.Column="1" Grid.Row="3" Height="30" Margin="10" Background="{DynamicResource FocusColor}" Foreground="White"/>
     </Grid>
 </Window>
