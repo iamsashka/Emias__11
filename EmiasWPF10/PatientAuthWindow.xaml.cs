@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Windows;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace EmiasWPF10
 {
@@ -22,6 +13,7 @@ namespace EmiasWPF10
         {
             InitializeComponent();
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (App.Theme == "LightTheme")
@@ -32,11 +24,6 @@ namespace EmiasWPF10
             {
                 App.Theme = "LightTheme";
             }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Обработчик события загрузки окна
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
@@ -59,12 +46,12 @@ namespace EmiasWPF10
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            string nickname = PatientNumberTextBox.Text;
+            string policyNumber = PolicyNumberTextBox.Text;
             string password = PasswordBox.Password;
 
             var loginRequest = new PatientLoginRequest
             {
-                Nickname = nickname,
+                PolicyNumber = policyNumber,
                 Password = password
             };
 
@@ -74,15 +61,15 @@ namespace EmiasWPF10
                 {
                     var json = JsonSerializer.Serialize(loginRequest);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/patientLogin", content);
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/login", content);
                     if (response.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Авторизация успешна!");
-                        // переход на окно для пациента
+                        // Откройте окно для пациентов, например PatientMainWindo
                     }
                     else
                     {
-                        MessageBox.Show("Неверный логин или пароль.");
+                        MessageBox.Show("Неверный номер полиса или пароль.");
                     }
                 }
                 catch (Exception ex)
@@ -92,25 +79,17 @@ namespace EmiasWPF10
             }
         }
 
-        private void Patient_Click(object sender, RoutedEventArgs e)
+        private void Employee_Click(object sender, RoutedEventArgs e)
         {
-            PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
-            patientAuthWindow.Show();
-            Close();
-        }
-
-        private void Register_Click(object sender, RoutedEventArgs e)
-        {
-            PatientRegisterWindow registerWindow = new PatientRegisterWindow();
-            registerWindow.Show();
-            Close();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 
     public class PatientLoginRequest
     {
-        public string Nickname { get; set; }
+        public string PolicyNumber { get; set; }
         public string Password { get; set; }
     }
 }
-

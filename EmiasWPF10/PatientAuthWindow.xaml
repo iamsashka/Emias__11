@@ -114,15 +114,14 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <!-- Поле для ввода никнейма -->
-            <TextBox x:Name="PatientNumberTextBox" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28"
-                     Style="{StaticResource PlaceholderTextBox}" Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Tag="Никнейм"/>
+            <!-- Поле для ввода номера полиса -->
+            <TextBox x:Name="PolicyNumberTextBox" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28"
+                     Style="{StaticResource PlaceholderTextBox}" Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Tag="Номер полиса"/>
 
             <!-- Поле для ввода пароля -->
             <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28"
@@ -132,10 +131,7 @@
             <Button Content="Войти" Grid.Column="0" Grid.Row="2" Background="{DynamicResource FocusColor}" Foreground="White" Margin="10,6,10,-1" Click="Login_Click"/>
 
             <!-- Дополнительная кнопка для входа как сотрудник -->
-            <Button Content="Я сотрудник" Grid.Column="1" Grid.Row="2" Background="{DynamicResource FocusColor}" Foreground="White" Margin="10,6,10,-1" Click="Patient_Click"/>
-
-            <!-- Кнопка регистрации -->
-            <Button Content="Регистрация" Grid.ColumnSpan="2" Grid.Row="3" Background="{DynamicResource FocusColor}" Foreground="White" Margin="10,6,10,-1" Click="Register_Click"/>
+            <Button Content="Я сотрудник" Grid.Column="1" Grid.Row="2" Background="{DynamicResource FocusColor}" Foreground="White" Margin="10,6,10,-1" Click="Employee_Click"/>
         </Grid>
     </Grid>
 </Window>
