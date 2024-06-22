@@ -5,4 +5,9 @@
         public string EmployeeNumber { get; set; }
         public string Password { get; set; }
     }
+    public class LoginRequestt
+    {
+        public string EmployeeNumberr { get; set; }
+        public string Passwordd { get; set; }
+    }
 }

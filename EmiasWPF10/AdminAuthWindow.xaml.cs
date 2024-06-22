@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace EmiasWPF10
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для AdminAuthWindow.xaml
+    /// </summary>
+    public partial class AdminAuthWindow : Window
     {
-        public MainWindow()
+        public AdminAuthWindow()
         {
-               InitializeComponent();
+            InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (App.Theme == "LightTheme")
@@ -65,10 +67,10 @@ namespace EmiasWPF10
             string employeeNumber = EmployeeNumberTextBox.Text;
             string password = PasswordBox.Password;
 
-            var loginRequest = new LoginRequest
+            var loginRequest = new LoginRequestt
             {
-                EmployeeNumber = employeeNumber,
-                Password = password
+                EmployeeNumberr = employeeNumber,
+                Passwordd = password
             };
 
             using (var client = new HttpClient())
@@ -77,12 +79,12 @@ namespace EmiasWPF10
                 {
                     var json = JsonSerializer.Serialize(loginRequest);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/login", content);
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/adminlogin", content);
                     if (response.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Авторизация успешна!");
-                        DoctorMainWindow doctorMainWindow = new DoctorMainWindow();
-                        doctorMainWindow.Show();
+                        AdminWindow adminMainWindow = new AdminWindow();
+                        adminMainWindow.Show();
                         this.Close();
                     }
                     else
@@ -97,23 +99,31 @@ namespace EmiasWPF10
             }
         }
         private void Patient_Click(object sender, RoutedEventArgs e)
-        {
-            PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
-            patientAuthWindow.Show();
-            Close();
-        }
+            {
+                PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
+                patientAuthWindow.Show();
+                Close();
+            }
 
-        private void Admin_Click(object sender, RoutedEventArgs e)
-        {
-            AdminAuthWindow adminAuthWindow = new AdminAuthWindow();
-            adminAuthWindow.Show();
-            Close();
+            private void Admin_Click(object sender, RoutedEventArgs e)
+            {
+                AdminAuthWindow adminAuthWindow = new AdminAuthWindow();
+                adminAuthWindow.Show();
+                Close();
 
+            }
+
+            private void Doctorк_Click(object sender, RoutedEventArgs e)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                Close();
+            }
         }
-    }
-    public class LoginRequest
+    public class LoginRequestt
     {
-        public string EmployeeNumber { get; set; }
-        public string Password { get; set; }
+        public string EmployeeNumberr { get; set; }
+        public string Passwordd { get; set; }
     }
 }
+   
