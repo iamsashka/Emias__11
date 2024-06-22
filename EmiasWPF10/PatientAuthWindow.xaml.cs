@@ -44,15 +44,29 @@ namespace EmiasWPF10
             Close();
         }
 
+        private void Polis_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (PolicyNumberTextBox.Text == "Номер полиса")
+            {
+                PolicyNumberTextBox.Text = "";
+            }
+        }
+
+        private void Polis_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(PolicyNumberTextBox.Text))
+            {
+                PolicyNumberTextBox.Text = "Номер полиса";
+            }
+        }
+
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             string policyNumber = PolicyNumberTextBox.Text;
-            string password = PasswordBox.Password;
 
             var loginRequest = new PatientLoginRequest
             {
-                PolicyNumber = policyNumber,
-                Password = password
+                PolicyNumber = policyNumber
             };
 
             using (var client = new HttpClient())

@@ -26,80 +26,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!-- Стиль для TextBox с Placeholder -->
-        <Style x:Key="PlaceholderTextBox" TargetType="{x:Type TextBox}">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Grid>
-                            <Border x:Name="Border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"/>
-                            <TextBlock x:Name="PlaceholderText"
-                                       Text="{TemplateBinding Tag}"
-                                       Foreground="Gray"
-                                       Visibility="Collapsed"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       Margin="5,0,0,0"/>
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="5,0,0,0" Focusable="False"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="False">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
-                            <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <!-- Стиль для PasswordBox с Placeholder -->
-        <Style x:Key="PlaceholderPasswordBox" TargetType="{x:Type PasswordBox}">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type PasswordBox}">
-                        <Grid>
-                            <Border x:Name="Border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"/>
-                            <TextBlock x:Name="PlaceholderText"
-                                       Text="{TemplateBinding Tag}"
-                                       Foreground="Gray"
-                                       Visibility="Collapsed"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       Margin="5,0,0,0"/>
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="5,0,0,0" Focusable="False"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="False">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
-                            <DataTrigger Binding="{Binding Password, RelativeSource={RelativeSource Self}}" Value="">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
     <Grid>
@@ -134,12 +60,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- Поле для ввода номера полиса -->
-            <TextBox x:Name="PolicyNumberTextBox" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28"
-                     Style="{StaticResource PlaceholderTextBox}" Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Tag="Номер полиса"/>
-
-            <!-- Поле для ввода пароля -->
-            <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28"
-                         Style="{StaticResource PlaceholderPasswordBox}" Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Tag="Пароль"/>
+            <TextBox x:Name="PolicyNumberTextBox" Grid.RowSpan="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="28" GotFocus="Polis_GotFocus" LostFocus="Polis_LostFocus"
+                      Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Text="Номер полиса"/>
 
             <!-- Кнопка для входа -->
             <Button Content="Войти" Grid.Column="0" Grid.Row="2" Background="{DynamicResource FocusColor}" Foreground="White" Margin="10,6,10,-1" Click="Login_Click"/>
