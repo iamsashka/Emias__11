@@ -13,7 +13,7 @@ namespace EMIAS.Controllers
 
         public AuthController(EmiasContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
 
         [HttpPost("login")]
