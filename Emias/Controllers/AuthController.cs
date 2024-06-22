@@ -51,8 +51,8 @@ namespace EMIAS.Controllers
         [HttpPost("adminlogin")]
         public IActionResult AdminLogin([FromBody] LoginRequestt request)
         {
-            if (string.IsNullOrEmpty(request.EmployeeNumberr) || string.IsNullOrEmpty(request.Passwordd))
-            {
+            if (request == null || string.IsNullOrEmpty(request.EmployeeNumberr) || string.IsNullOrEmpty(request.Passwordd))
+    {
                 return BadRequest(new { Message = "EmployeeNumber and Password cannot be empty" });
             }
 
@@ -75,6 +75,7 @@ namespace EMIAS.Controllers
             }
             catch (Exception ex)
             {
+                // Логирование ошибки
                 return StatusCode(500, new { Message = $"Ошибка сервера: {ex.Message}" });
             }
         }
