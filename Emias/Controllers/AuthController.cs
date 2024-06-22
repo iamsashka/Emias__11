@@ -12,7 +12,7 @@ namespace EMIAS.Controllers
 
         public AuthController(EmiasContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         [HttpPost("login")]
@@ -40,6 +40,38 @@ namespace EMIAS.Controllers
                 }
 
                 return Ok(new { Message = "Авторизация успешна", Role = "Doctor" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = $"Ошибка сервера: {ex.Message}" });
+            }
+        }
+
+
+        [HttpPost("adminlogin")]
+        public IActionResult AdminLogin([FromBody] LoginRequestt request)
+        {
+            if (string.IsNullOrEmpty(request.EmployeeNumberr) || string.IsNullOrEmpty(request.Passwordd))
+            {
+                return BadRequest(new { Message = "EmployeeNumber and Password cannot be empty" });
+            }
+
+            try
+            {
+                if (!int.TryParse(request.EmployeeNumberr, out int idAdmin))
+                {
+                    return BadRequest(new { Message = "Invalid EmployeeNumber format" });
+                }
+
+                var admin = _context.Admins
+                    .FirstOrDefault(a => a.IdAdmin == idAdmin && a.EnterPassword == request.Passwordd);
+
+                if (admin == null)
+                {
+                    return Unauthorized(new { Message = "Неверный номер сотрудника или пароль" });
+                }
+
+                return Ok(new { Message = "Авторизация успешна", Role = "Admin" });
             }
             catch (Exception ex)
             {
