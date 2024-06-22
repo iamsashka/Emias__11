@@ -7,7 +7,22 @@
         xmlns:local="clr-namespace:EmiasWPF10" 
         mc:Ignorable="d"
         Title="MainWindow" Height="850" Width="1500" FontSize="14" FontFamily="Inter" FontWeight="Regular" Foreground="White" MinHeight="472" MinWidth="718">
-    <WindowChrome.WindowChrome>
+    <Window.Resources>
+        <Style x:Key="ImageButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+        <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
     <Grid >
@@ -23,8 +38,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <TextBlock Text="ЕМИАС - Администратор" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0" FontWeight="Medium"/>
             </StackPanel>
-            <Button Click="Button_Click" Background="{DynamicResource PrimaryColor}" Margin="276,14,1186,14">
-                <Image Source="/Icon/tema.svg" Stretch="Uniform"/>
+            <Button Click="Button_Click" Background="{DynamicResource PrimaryColor}" Margin="276,14,1186,14" Style="{StaticResource ImageButton}">
+                <Image Source="/Icon/tema.png" Stretch="Uniform"/>
             </Button>
         </Grid>
         <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0"/>

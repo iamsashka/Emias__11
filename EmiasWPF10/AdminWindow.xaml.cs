@@ -35,6 +35,19 @@ namespace EmiasWPF10
             dataGrid.ItemsSource = (System.Collections.IEnumerable)patientsController.GetPatients();
         }
 
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Theme == "LightTheme")
+            {
+                App.Theme = "DarkTheme";
+            }
+            else
+            {
+                App.Theme = "LightTheme";
+            }
+        }
+
         private async void AddEntryFunc(int selectedIndex)
         {
             if (selectedIndex == 0)
