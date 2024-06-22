@@ -27,35 +27,44 @@ namespace EmiasWPF10
         }
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            string polis = PolicyNumberTextBox.Text;
-
-            var loginRequest = new PatientLoginRequest
             {
-                Polis = polis
-            };
+                string polis = PolicyNumberTextBox.Text;
 
-            using (var client = new HttpClient())
-            {
-                try
+                // Проверка, что введены только цифры и их длина составляет 16
+                if (polis.Length != 16 || !polis.All(char.IsDigit))
                 {
-                    var json = JsonSerializer.Serialize(loginRequest);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/patientlogin", content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Авторизация успешна!");
-                        PatientWindow patientMainWindow = new PatientWindow();
-                        patientMainWindow.Show();
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неверный номер полиса");
-                    }
+                    MessageBox.Show("Номер полиса должен содержать 16 цифр");
+                    return;
                 }
-                catch (Exception ex)
+
+                var loginRequest = new PatientLoginRequest
                 {
-                    MessageBox.Show($"Ошибка подключения к серверу: {ex.Message}");
+                    Polis = polis
+                };
+
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        var json = JsonSerializer.Serialize(loginRequest);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+                        HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/patientlogin", content);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            MessageBox.Show("Авторизация успешна!");
+                            PatientWindow patientMainWindow = new PatientWindow();
+                            patientMainWindow.Show();
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Неверный номер полиса");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка подключения к серверу: {ex.Message}");
+                    }
                 }
             }
         }
