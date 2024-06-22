@@ -1,21 +1,19 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace EmiasWPF10
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminAuthWindow.xaml
-    /// </summary>
     public partial class AdminAuthWindow : Window
     {
         public AdminAuthWindow()
         {
             InitializeComponent();
+            PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (App.Theme == "LightTheme")
@@ -28,10 +26,17 @@ namespace EmiasWPF10
             }
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
 
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (PasswordBox.Password.Length > 0)
+            {
+                PlaceholderPasswordText.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                PlaceholderPasswordText.Visibility = Visibility.Visible;
+            }
         }
 
         private void Id_GotFocus(object sender, RoutedEventArgs e)
@@ -50,18 +55,6 @@ namespace EmiasWPF10
             }
         }
 
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             string employeeNumber = EmployeeNumberTextBox.Text;
@@ -98,32 +91,50 @@ namespace EmiasWPF10
                 }
             }
         }
-        private void Patient_Click(object sender, RoutedEventArgs e)
-            {
-                PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
-                patientAuthWindow.Show();
-                Close();
-            }
 
-            private void Admin_Click(object sender, RoutedEventArgs e)
-            {
-                AdminAuthWindow adminAuthWindow = new AdminAuthWindow();
-                adminAuthWindow.Show();
-                Close();
-
-            }
-
-            private void Doctorк_Click(object sender, RoutedEventArgs e)
-            {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                Close();
-            }
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Patient_Click(object sender, RoutedEventArgs e)
+        {
+            PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
+            patientAuthWindow.Show();
+            Close();
+        }
+
+        private void Admin_Click(object sender, RoutedEventArgs e)
+        {
+            AdminAuthWindow adminAuthWindow = new AdminAuthWindow();
+            adminAuthWindow.Show();
+            Close();
+
+        }
+
+        private void Doctorк_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Close();
+        }
+    }
+
     public class LoginRequestt
     {
         public string EmployeeNumberr { get; set; }
         public string Passwordd { get; set; }
     }
 }
-   

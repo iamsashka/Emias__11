@@ -12,6 +12,19 @@ namespace EmiasWPF10
         public MainWindow()
         {
                InitializeComponent();
+               PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (PasswordBox.Password.Length > 0)
+            {
+                PlaceholderPasswordText.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                PlaceholderPasswordText.Visibility = Visibility.Visible;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
