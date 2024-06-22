@@ -32,6 +32,22 @@ namespace EmiasWPF10
 
         }
 
+        private void Id_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (EmployeeNumberTextBox.Text == "Номер сотрудника")
+            {
+                EmployeeNumberTextBox.Text = "";
+            }
+        }
+
+        private void Id_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(EmployeeNumberTextBox.Text))
+            {
+                EmployeeNumberTextBox.Text = "Номер сотрудника";
+            }
+        }
+
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Maximized)
