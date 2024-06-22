@@ -11,7 +11,7 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         Background="{DynamicResource PrimaryColor}"
-        Loaded="Window_Loaded">
+        >
 
     <Window.Resources>
         <!-- Стиль для TextBox с Placeholder -->
