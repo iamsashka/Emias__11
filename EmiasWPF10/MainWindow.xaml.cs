@@ -11,7 +11,7 @@ namespace EmiasWPF10
     {
         public MainWindow()
         {
-            InitializeComponent();
+               InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -24,11 +24,6 @@ namespace EmiasWPF10
             {
                 App.Theme = "LightTheme";
             }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Обработчик события загрузки окна
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
