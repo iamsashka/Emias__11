@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EMIAS.Models;
+using WebApplication1.Models;
 
 namespace EMIAS.Controllers
 {

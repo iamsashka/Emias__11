@@ -25,6 +25,40 @@ namespace EmiasWPF10
                 App.Theme = "LightTheme";
             }
         }
+        private async void Login_Click(object sender, RoutedEventArgs e)
+        {
+            string polis = PolicyNumberTextBox.Text;
+
+            var loginRequest = new PatientLoginRequest
+            {
+                Polis = polis
+            };
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var json = JsonSerializer.Serialize(loginRequest);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/patientlogin", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Авторизация успешна!");
+                        PatientWindow patientMainWindow = new PatientWindow();
+                        patientMainWindow.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неверный номер полиса");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка подключения к серверу: {ex.Message}");
+                }
+            }
+        }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
@@ -60,39 +94,6 @@ namespace EmiasWPF10
             }
         }
 
-        private async void Login_Click(object sender, RoutedEventArgs e)
-        {
-            string policyNumber = PolicyNumberTextBox.Text;
-
-            var loginRequest = new PatientLoginRequest
-            {
-                PolicyNumber = policyNumber
-            };
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var json = JsonSerializer.Serialize(loginRequest);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/login", content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Авторизация успешна!");
-                        // Откройте окно для пациентов, например PatientMainWindo
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неверный номер полиса или пароль.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка подключения к серверу: {ex.Message}");
-                }
-            }
-        }
-
         private void Employee_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -103,7 +104,6 @@ namespace EmiasWPF10
 
     public class PatientLoginRequest
     {
-        public string PolicyNumber { get; set; }
-        public string Password { get; set; }
+        public string Polis { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EMIAS.Models;
 using System.Linq;
+using WebApplication1.Models;
 
 namespace EMIAS.Controllers
 {
@@ -52,7 +53,7 @@ namespace EMIAS.Controllers
         public IActionResult AdminLogin([FromBody] LoginRequestt request)
         {
             if (request == null || string.IsNullOrEmpty(request.EmployeeNumberr) || string.IsNullOrEmpty(request.Passwordd))
-    {
+            {
                 return BadRequest(new { Message = "EmployeeNumber and Password cannot be empty" });
             }
 
@@ -77,6 +78,36 @@ namespace EMIAS.Controllers
             {
                 // Логирование ошибки
                 return StatusCode(500, new { Message = $"Ошибка сервера: {ex.Message}" });
+            }
+        }
+        [HttpPost("patientlogin")]
+        public IActionResult PatientLogin([FromBody] PatientLoginRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Polis))
+            {
+                return BadRequest(new { Message = "Polis cannot be empty" });
+            }
+
+            try
+            {
+                if (!long.TryParse(request.Polis, out long polis))
+                {
+                    return BadRequest(new { Message = "Invalid Polis format" });
+                }
+
+                var patient = _context.Patients
+                    .FirstOrDefault(p => p.Polis == polis);
+
+                if (patient == null)
+                {
+                    return Unauthorized(new { Message = "Invalid Polis number" });
+                }
+
+                return Ok(new { Message = "Authorization successful", Role = "Patient" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = $"Server error: {ex.Message}" });
             }
         }
     }

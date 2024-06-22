@@ -10,4 +10,8 @@
         public string EmployeeNumberr { get; set; }
         public string Passwordd { get; set; }
     }
+    public class PatientLoginRequest
+    {
+        public string Polis { get; set; }
+    }
 }

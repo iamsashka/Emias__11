@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class AppointmentDocument
 {
-    public int? IdAppointment { get; set; }
+    public int IdAppointment { get; set; }
 
     public string Name { get; set; } = null!;
 

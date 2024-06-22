@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EMIAS;
 using EMIAS.Controllers;
-using EMIAS.Models;
+using WebApplication1.Models;
 
 namespace EmiasWPF10
 {

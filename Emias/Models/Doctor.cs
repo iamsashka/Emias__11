@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class Doctor
 {
-    public int? IdDoctor { get; set; }
+    public int IdDoctor { get; set; }
 
     public string Surname { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public partial class Doctor
 
     public string WorkAddress { get; set; } = null!;
 
-    public int? IdSpeciality { get; set; }
+    public int IdSpeciality { get; set; }
 
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 

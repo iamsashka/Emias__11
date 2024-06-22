@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class Admin
 {
-    public int? IdAdmin { get; set; }
+    public int IdAdmin { get; set; }
 
     public string Surname { get; set; } = null!;
 

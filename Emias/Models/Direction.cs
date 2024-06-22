@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class Direction
 {
-    public int? IdDirection { get; set; }
+    public int IdDirection { get; set; }
 
-    public int? IdSpeciality { get; set; }
+    public int IdSpeciality { get; set; }
 
     public long Oms { get; set; }
 

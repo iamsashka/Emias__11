@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class Appointment
 {
-    public int? IdAppointment { get; set; }
+    public int IdAppointment { get; set; }
 
     public long? Oms { get; set; }
 
-    public int? IdDoctor { get; set; }
+    public int IdDoctor { get; set; }
 
     public DateOnly AppointmentDate { get; set; }
 

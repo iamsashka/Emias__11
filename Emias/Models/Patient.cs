@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMIAS.Models;
+namespace WebApplication1.Models;
 
 public partial class Patient
 {
@@ -12,6 +12,8 @@ public partial class Patient
     public string Name { get; set; } = null!;
 
     public string? Patronymic { get; set; }
+
+    public long Polis { get; set; }
 
     public DateOnly BirthDate { get; set; }
 
