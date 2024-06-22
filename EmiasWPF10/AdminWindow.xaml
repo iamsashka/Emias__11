@@ -23,6 +23,9 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <TextBlock Text="ЕМИАС - Администратор" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0" FontWeight="Medium"/>
             </StackPanel>
+            <Button Click="Button_Click" Background="{DynamicResource PrimaryColor}" Margin="276,14,1186,14">
+                <Image Source="/Icon/tema.svg" Stretch="Uniform"/>
+            </Button>
         </Grid>
         <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0"/>
         <Grid Grid.Row="1" Grid.Column="1">
