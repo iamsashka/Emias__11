@@ -83,9 +83,15 @@ namespace EMIAS.Controllers
         [HttpPost("patientlogin")]
         public IActionResult PatientLogin([FromBody] PatientLoginRequest request)
         {
-            if (request == null || string.IsNullOrEmpty(request.Polis))
+            if (string.IsNullOrEmpty(request.Polis))
             {
                 return BadRequest(new { Message = "Polis cannot be empty" });
+            }
+
+            // Проверка, что введены только цифры и их длина составляет 16
+            if (request.Polis.Length != 16 || !request.Polis.All(char.IsDigit))
+            {
+                return BadRequest(new { Message = "Polis number must be 16 digits" });
             }
 
             try
