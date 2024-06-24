@@ -104,7 +104,7 @@
             <!-- Поле для ввода пароля -->
             <Grid Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Height="28">
                 <PasswordBox x:Name="PasswordBox" Background="{DynamicResource PrimaryColor}" Foreground="{DynamicResource SecondaryTextColor}" Tag="Пароль"/>
-                <TextBlock x:Name="PlaceholderPasswordText" Text="Пароль" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5, 0, 0, 0"/>
+                <TextBlock x:Name="PlaceholderPasswordText" Text="Пароль" Foreground="{DynamicResource SecondaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5, 0, 0, 0"/>
             </Grid>
             <!-- Кнопка для входа -->
             <Button Content="Войти" Grid.Column="0" Grid.Row="2" Background="{DynamicResource FocusColor}" Foreground="White" Click="Login_Click" Margin="10,6,10,-1"/>
