@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using EMIAS.Models;
 
 namespace WebApplication1.Models;
 
@@ -34,6 +35,7 @@ public partial class EmiasContext : DbContext
     public virtual DbSet<Speciality> Specialities { get; set; }
 
     public virtual DbSet<StatusType> StatusTypes { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -181,4 +183,6 @@ public partial class EmiasContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<EMIAS.Models.User> User { get; set; } = default!;
 }
