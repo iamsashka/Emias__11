@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="EmiasWPF10.Cards.Analizi"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EmiasWPF10.Cards"
+             mc:Ignorable="d" 
+             Height="65" Width="350" Margin="10 0 10 10">
+    <Grid>
+        <Grid Background="#FFFFFF">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" MaxWidth="338" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Анализы крови" FontSize="14px" TextAlignment="Center" TextWrapping="Wrap" FontFamily="Inter" />
+            <TextBlock Text="23 июня 2024г." FontSize="12px" Grid.Row="1"  Foreground="#807F7F" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+        </Grid>
+    </Grid>
+</UserControl>
