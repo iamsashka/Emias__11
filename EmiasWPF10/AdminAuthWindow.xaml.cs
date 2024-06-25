@@ -75,7 +75,14 @@ namespace EmiasWPF10
                     HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/adminlogin", content);
                     if (response.IsSuccessStatusCode)
                     {
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody);
+
                         MessageBox.Show("Авторизация успешна!");
+                        // Сохраняем идентификатор пользователя и токен
+                        Application.Current.Properties["UserId"] = loginResponse.UserId;
+                        Application.Current.Properties["AuthToken"] = loginResponse.Token;
+
                         AdminWindow adminMainWindow = new AdminWindow();
                         adminMainWindow.Show();
                         this.Close();
@@ -91,6 +98,13 @@ namespace EmiasWPF10
                 }
             }
         }
+
+        public class LoginResponse
+        {
+            public int UserId { get; set; }
+            public string Token { get; set; }
+        }
+
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {

@@ -1,198 +1,144 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using EMIAS;
-using EMIAS.Controllers;
-using WebApplication1.Models;
+using System.Collections.Generic;
 
 namespace EmiasWPF10
 {
     public partial class AdminWindow : Window
     {
-        private PatientsController patientsController;
-        private DoctorsController doctorsController;
-        private AdminsController adminController;
-        private UserPage upage = new UserPage();
-        private DoctorPage dpage = new DoctorPage();
-        private AdminPage apage = new AdminPage();
-
         public AdminWindow()
         {
             InitializeComponent();
-            List<string> Users = new List<string>() { "Пользователь", "Врач", "Администратор" };
-            ComboBoxChoiceUser.SelectedItem = 0;
-            dataGrid.ItemsSource = (System.Collections.IEnumerable)patientsController.GetPatients();
+            LoadUsers();
         }
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void LoadUsers()
         {
-            if (App.Theme == "LightTheme")
+            using (var client = new HttpClient())
             {
-                App.Theme = "DarkTheme";
+                var authToken = (string)Application.Current.Properties["AuthToken"];
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
+                HttpResponseMessage response = await client.GetAsync("https://localhost:7221/api/user");
+                if (response.IsSuccessStatusCode)
+                {
+                    var users = await response.Content.ReadAsStringAsync();
+                    var userList = JsonSerializer.Deserialize<List<User>>(users);
+                    dataGrid.ItemsSource = userList;
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка загрузки данных пользователей.");
+                }
+            }
+        }
+
+        private async void AddEntryButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newUser = new User
+            {
+                EmployeeNumber = "НовыйНомер",
+                Password = "НовыйПароль",
+                Role = "Doctor"
+            };
+
+            using (var client = new HttpClient())
+            {
+                var authToken = (string)Application.Current.Properties["AuthToken"];
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
+                var json = JsonSerializer.Serialize(newUser);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/user", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Пользователь добавлен успешно!");
+                    LoadUsers();
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка добавления пользователя.");
+                }
+            }
+        }
+
+        private async void ChangeEntryButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedItem is User selectedUser)
+            {
+                selectedUser.Password = "ИзмененныйПароль";
+
+                using (var client = new HttpClient())
+                {
+                    var authToken = (string)Application.Current.Properties["AuthToken"];
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+
+                    var json = JsonSerializer.Serialize(selectedUser);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync($"https://localhost:7221/api/user/{selectedUser.Id}", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Пользователь изменен успешно!");
+                        LoadUsers();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка изменения пользователя.");
+                    }
+                }
             }
             else
             {
-                App.Theme = "LightTheme";
+                MessageBox.Show("Выберите пользователя для изменения.");
             }
         }
 
-        private async void AddEntryFunc(int selectedIndex)
+        private async void DeleteEntryButton_Click_1(object sender, RoutedEventArgs e)
         {
-            if (selectedIndex == 0)
+            if (dataGrid.SelectedItem is User selectedUser)
             {
-                Patient patient = new Patient()
+                var loggedInUserId = (int)Application.Current.Properties["UserId"];
+                var authToken = (string)Application.Current.Properties["AuthToken"];
+
+                if (selectedUser.Id == loggedInUserId)
                 {
-                    Oms = Convert.ToInt64(upage.PolicynumberTextBox),
-                    Surname = upage.SurnameTextBox.Text,
-                    Name = upage.NameTextBox.Text,
-                    Patronymic = upage.PatronymicTextBox.Text,
-                    BirthDate = DateOnly.Parse(upage.BirthdatesTextBox.Text),
-                    Address = upage.AddressPropiskiTextBox.Text
-                };
+                    MessageBox.Show("Невозможно удалить текущего авторизованного пользователя.");
+                    return;
+                }
 
-                await patientsController.PostPatient(patient);
-            }
-            else if (selectedIndex == 1)
-            {
-                Doctor doctor = new Doctor()
+                using (var client = new HttpClient())
                 {
-                    Surname = dpage.SurnameTextBox.Text,
-                    Name = dpage.NameTextBox.Text,
-                    Patronymic = dpage.PatronymicTextBox.Text,
-                    IdSpeciality = dpage.SpecialtyComboBox.SelectedIndex,
-                    EnterPassword = dpage.AddressTextBox.Text,
-                    WorkAddress = dpage.AddressTextBox.Text
-                };
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+                    HttpResponseMessage response = await client.DeleteAsync($"https://localhost:7221/api/user/{selectedUser.Id}");
 
-                await doctorsController.PostDoctor(doctor);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Пользователь удален успешно!");
+                        LoadUsers();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка удаления пользователя.");
+                    }
+                }
             }
-            else if (selectedIndex == 2)
+            else
             {
-                Admin admin = new Admin()
-                {
-                    Surname = apage.SurnameTextBox.Text,
-                    Name = apage.NameTextBox.Text,
-                    Patronymic = apage.PatronymicTextBox.Text,
-                    EnterPassword = apage.PasswordTextBox.Text
-                };
-
-                await adminController.PostAdmin(admin);
+                MessageBox.Show("Выберите пользователя для удаления.");
             }
         }
+    }
 
-        private async void ChangeEntryFunc(int selectedIndex, int selectedData)
-        {
-
-            if (selectedIndex == 0)
-            {
-                Patient patient = new Patient()
-                {
-                    Oms = Convert.ToInt64(upage.PolicynumberTextBox),
-                    Surname = upage.SurnameTextBox.Text,
-                    Name = upage.NameTextBox.Text,
-                    Patronymic = upage.PatronymicTextBox.Text,
-                    BirthDate = DateOnly.Parse(upage.BirthdatesTextBox.Text),
-                    Address = upage.AddressPropiskiTextBox.Text
-                };
-
-                await patientsController.PutPatient((Int64)selectedData, patient);
-            }
-            else if (selectedIndex == 1)
-            {
-                Doctor doctor = new Doctor()
-                {
-                    Surname = dpage.SurnameTextBox.Text,
-                    Name = dpage.NameTextBox.Text,
-                    Patronymic = dpage.PatronymicTextBox.Text,
-                    IdSpeciality = dpage.SpecialtyComboBox.SelectedIndex,
-                    EnterPassword = dpage.AddressTextBox.Text,
-                    WorkAddress = dpage.AddressTextBox.Text
-                };
-
-                await doctorsController.PutDoctor(selectedData, doctor);
-            }
-            else if (selectedIndex == 2)
-            {
-                Admin admin = new Admin()
-                {
-                    Surname = apage.SurnameTextBox.Text,
-                    Name = apage.NameTextBox.Text,
-                    Patronymic = apage.PatronymicTextBox.Text,
-                    EnterPassword = apage.PasswordTextBox.Text
-                };
-
-                await adminController.PutAdmin(selectedData, admin);
-            }
-
-        }
-
-        private async void DeleteEntryFunc(int selectedIndex, int selectedData)
-        {
-            if (selectedIndex == 0)
-            {
-                await patientsController.DeletePatient((Int64)selectedData);
-            }
-            else if (selectedIndex == 1)
-            {
-                await doctorsController.DeleteDoctor(selectedData);
-            }
-            else if (selectedIndex == 2)
-            {
-                await adminController.DeleteAdmin(selectedData);
-            }
-        }
-
-        private void ComboBoxChoiceUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ComboBoxChoiceUser.SelectedIndex == 0)
-            {
-                SelectedUserFrame.Content = new UserPage();
-                dataGrid.ItemsSource = (System.Collections.IEnumerable)patientsController.GetPatients();
-            }
-            else if (ComboBoxChoiceUser.SelectedIndex == 1)
-            {
-                SelectedUserFrame.Content = new DoctorPage();
-                dataGrid.ItemsSource = (System.Collections.IEnumerable)doctorsController.GetDoctors();
-            }
-            else if (ComboBoxChoiceUser.SelectedIndex == 2)
-            {
-                SelectedUserFrame.Content = new AdminPage();
-                dataGrid.ItemsSource = (System.Collections.IEnumerable)adminController.GetAdmins();
-            }
-        }
-
-        private void AddEntryButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddEntryFunc(ComboBoxChoiceUser.SelectedIndex);
-        }
-
-        private void ChangeEntryButton_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeEntryFunc(ComboBoxChoiceUser.SelectedIndex, (int)dataGrid.SelectedItems[0]);
-        }
-        private void DeleteEntryButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            DeleteEntryFunc(ComboBoxChoiceUser.SelectedIndex, (int)dataGrid.SelectedItems[0]);
-        }
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            //authentication_Window = new Authentication_Window;
-            //Close();
-            //authentication_Window.Show();
-
-        }
-
+    public class User
+    {
+        public int Id { get; set; }
+        public string EmployeeNumber { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
     }
 }
