@@ -3,10 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EmiasWPF10"
         mc:Ignorable="d"
-        Title="DoctorMainWindow" Height="450" Width="800">
+        Title="Расписание доктора"
+        Width="800" Height="600"
+        MinWidth="472" MinHeight="718"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        WindowStyle="None"
+        Background="{DynamicResource PrimaryColor}"
+        SizeToContent="WidthAndHeight">
     <Grid>
-        
+        <!-- Верхняя панель с кнопками -->
+        <DockPanel VerticalAlignment="Top" Background="{DynamicResource FocusColor}" Height="30">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="_" Width="30" Height="30" Click="Minimize_Click"/>
+                <Button Content="[]" Width="30" Height="30" Click="Maximize_Click"/>
+                <Button Content="X" Width="30" Height="30" Click="Close_Click"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Элементы для выбора даты и отображения расписания -->
+        <StackPanel Margin="10,40,10,10">
+            <DatePicker x:Name="ScheduleDatePicker" SelectedDateChanged="ScheduleDatePicker_SelectedDateChanged"/>
+            <DataGrid x:Name="ScheduleDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,10,0,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Время" Binding="{Binding AppointmentTime}"/>
+                    <DataGridTextColumn Header="Пациент" Binding="{Binding PatientFullName}"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding StatusName}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Window>

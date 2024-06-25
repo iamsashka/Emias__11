@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EmiasWPF10
 {
@@ -11,8 +11,8 @@ namespace EmiasWPF10
     {
         public MainWindow()
         {
-               InitializeComponent();
-               PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
+            InitializeComponent();
+            PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
@@ -27,52 +27,6 @@ namespace EmiasWPF10
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (App.Theme == "LightTheme")
-            {
-                App.Theme = "DarkTheme";
-            }
-            else
-            {
-                App.Theme = "LightTheme";
-            }
-        }
-
-        private void Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-
-        }
-
-        private void Id_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (EmployeeNumberTextBox.Text == "Номер сотрудника")
-            {
-                EmployeeNumberTextBox.Text = "";
-            }
-        }
-
-        private void Id_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(EmployeeNumberTextBox.Text))
-            {
-                EmployeeNumberTextBox.Text = "Номер сотрудника";
-            }
-        }
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             string employeeNumber = EmployeeNumberTextBox.Text;
@@ -93,14 +47,14 @@ namespace EmiasWPF10
                     HttpResponseMessage response = await client.PostAsync("https://localhost:7221/api/auth/login", content);
                     if (response.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("Авторизация успешна!");
-                        DoctorMainWindow doctorMainWindow = new DoctorMainWindow();
+                        var doctorId = await response.Content.ReadAsStringAsync();
+                        DoctorMainWindow doctorMainWindow = new DoctorMainWindow(int.Parse(doctorId));
                         doctorMainWindow.Show();
-                        this.Close();
+                        Close();
                     }
                     else
                     {
-                        MessageBox.Show("Неверно");
+                        MessageBox.Show("Неверный номер сотрудника или пароль");
                     }
                 }
                 catch (Exception ex)
@@ -109,6 +63,7 @@ namespace EmiasWPF10
                 }
             }
         }
+
         private void Patient_Click(object sender, RoutedEventArgs e)
         {
             PatientAuthWindow patientAuthWindow = new PatientAuthWindow();
@@ -121,9 +76,55 @@ namespace EmiasWPF10
             AdminAuthWindow adminAuthWindow = new AdminAuthWindow();
             adminAuthWindow.Show();
             Close();
+        }
 
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Id_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (EmployeeNumberTextBox.Text == "Номер сотрудника")
+            {
+                EmployeeNumberTextBox.Text = "";
+            }
+        }
+
+        private void Id_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(EmployeeNumberTextBox.Text))
+            {
+                EmployeeNumberTextBox.Text = "Номер сотрудника";
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Theme == "LightTheme")
+            {
+                App.Theme = "DarkTheme";
+            }
+            else
+            {
+                App.Theme = "LightTheme";
+            }
         }
     }
+
     public class LoginRequest
     {
         public string EmployeeNumber { get; set; }
